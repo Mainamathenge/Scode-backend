@@ -1,6 +1,6 @@
 exports.getOverview = (req, res, next) => {
   res.json({
-    message: "Awesome Ziara web server works! 😎",
+    message: "welcome to scode",
     author: "Joseph Maina",
     year: "2023",
     for: "Scode admin",
