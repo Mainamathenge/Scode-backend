@@ -82,9 +82,10 @@ router.patch("/resetPassword/:token", authController.resetPassword);
 
 // Protect all routes after this middleware
 router.use(authController.protect);
-router.patch("/update/interests", userController.updateInterests);
+// router.patch("/update/interests", userController.updateInterests);
 router.patch("/updateMyPassword", authController.updatePassword);
 router.get("/me", userController.getMe, userController.getUser);
+router.post("/device/:id", userController.updatedevicelocation);
 // router.patch(
 //   "/updateMe",
 //   userController.uploadUserDocs,
