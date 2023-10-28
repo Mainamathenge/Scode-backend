@@ -15,6 +15,7 @@ const AppError = require("./utils/appError");
 const userRouter = require("./routes/userRoutes");
 const todoRouter = require("./routes/todoRoutes");
 const viewController = require("./routes/viewRoutes");
+const customerRouter = require("./routes/customerRoutes");
 // Start express app
 const app = express();
 
@@ -88,6 +89,7 @@ app.use(
 //Routes
 app.use("/", viewController);
 app.use("/api/v1/users", userRouter);
+app.use("/api/v1/customers", customerRouter);
 app.use("/api/v1/todos", todoRouter);
 // dashboardRouter;
 

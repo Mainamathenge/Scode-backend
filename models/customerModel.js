@@ -17,29 +17,29 @@ const customerSchema = new mongoose.Schema({
     type: Number,
     required: [true, "Please provide Customer balance"],
   },
-  Devices: [],
+  Device: {
+    type: String,
+    required: [true, "Please provide a valid device id "],
+  },
   location: {
     type: String,
     default: "Kenya",
   },
   devicelocation: {
-    lat: { type: String },
-    long: { type: String },
+    lat: { type: String, default: "Kenya" },
+    long: { type: String, default: "Kenya" },
   },
   photo: {
     type: String,
-    default:
-      "https://asili-prod-user-uploads.s3.eu-west-1.amazonaws.com/email/user-avatar.png",
+    default: "photoString",
   },
   identitycard: {
     type: String,
-    default:
-      "https://asili-prod-user-uploads.s3.eu-west-1.amazonaws.com/email/user-avatar.png",
+    default: "idlink",
   },
   contract: {
     type: String,
-    default:
-      "https://asili-prod-user-uploads.s3.eu-west-1.amazonaws.com/email/user-avatar.png",
+    default: "",
   },
   loanStatus: {
     type: String,
@@ -47,10 +47,10 @@ const customerSchema = new mongoose.Schema({
   },
   active: {
     type: Boolean,
-    default: true,
+    default: false,
   },
 });
 
-const customer = mongoose.model("User", customerSchema);
+const customer = mongoose.model("Customer", customerSchema);
 
 module.exports = customer;
