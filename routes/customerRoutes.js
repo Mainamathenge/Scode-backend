@@ -1,7 +1,10 @@
 const express = require("express");
 const customerController = require("../controllers/customerController");
+const paymentController = require("../controllers/paymentController");
 
 const router = express.Router();
+
+router.post("/callback", paymentController.payment);
 
 router
   .route("/")
