@@ -56,22 +56,22 @@ const userController = require("../controllers/userController");
 const router = express.Router();
 
 //Twitter
-router.get("/auth/twitter", passport.authenticate("twitter"));
-router.get(
-  "/auth/twitter/callback",
-  passport.authenticate("twitter", { failureRedirect: "/login" }),
-  // eslint-disable-next-line prefer-arrow-callback
-  function (req, res) {
-    // Successful authentication, redirect home
-    // console.log('user', req.user);
-    const token = signToken(req.user._doc._id);
-    // const token = jwt.sign({ userId: req.user._id });
-    const user = { ...req.user._doc, token };
-    res.redirect(
-      `${process.env.FRONTEND_URL}/register?user=${JSON.stringify(user)}`
-    );
-  }
-);
+// router.get("/auth/twitter", passport.authenticate("twitter"));
+// router.get(
+//   "/auth/twitter/callback",
+//   passport.authenticate("twitter", { failureRedirect: "/login" }),
+//   // eslint-disable-next-line prefer-arrow-callback
+//   function (req, res) {
+//     // Successful authentication, redirect home
+//     // console.log('user', req.user);
+//     const token = signToken(req.user._doc._id);
+//     // const token = jwt.sign({ userId: req.user._id });
+//     const user = { ...req.user._doc, token };
+//     res.redirect(
+//       `${process.env.FRONTEND_URL}/register?user=${JSON.stringify(user)}`
+//     );
+//   }
+// );
 
 router.post("/signup", authController.signup);
 router.post("/login", authController.login);
