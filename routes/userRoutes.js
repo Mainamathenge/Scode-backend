@@ -79,13 +79,14 @@ router.post("/logout", authController.logout);
 
 router.post("/forgotPassword", authController.forgotPassword);
 router.patch("/resetPassword/:token", authController.resetPassword);
+router.post("/device/:id", userController.updatedevicelocation);
 
 // Protect all routes after this middleware
 router.use(authController.protect);
 // router.patch("/update/interests", userController.updateInterests);
 router.patch("/updateMyPassword", authController.updatePassword);
 router.get("/me", userController.getMe, userController.getUser);
-router.post("/device/:id", userController.updatedevicelocation);
+
 // router.patch(
 //   "/updateMe",
 //   userController.uploadUserDocs,
