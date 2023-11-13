@@ -9,7 +9,7 @@ router.post("/validate", paymentController.validation);
 
 router
   .route("/")
-  .get(customerController.getCustomer)
+  .get(customerController.getAllCustomer)
   .post(customerController.createCustomer);
 
 router

@@ -9,6 +9,10 @@ const customerSchema = new mongoose.Schema({
     type: Number,
     required: [true, " please provide a valid customer number"],
   },
+  idnumber: {
+    type: Number,
+    required: [true, " please provide the customers id number"],
+  },
   deposit: {
     type: Number,
     required: [true, "Please provide Customer balance"],
