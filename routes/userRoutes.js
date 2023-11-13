@@ -56,22 +56,22 @@ const userController = require("../controllers/userController");
 const router = express.Router();
 
 //Twitter
-router.get("/auth/twitter", passport.authenticate("twitter"));
-router.get(
-  "/auth/twitter/callback",
-  passport.authenticate("twitter", { failureRedirect: "/login" }),
-  // eslint-disable-next-line prefer-arrow-callback
-  function (req, res) {
-    // Successful authentication, redirect home
-    // console.log('user', req.user);
-    const token = signToken(req.user._doc._id);
-    // const token = jwt.sign({ userId: req.user._id });
-    const user = { ...req.user._doc, token };
-    res.redirect(
-      `${process.env.FRONTEND_URL}/register?user=${JSON.stringify(user)}`
-    );
-  }
-);
+// router.get("/auth/twitter", passport.authenticate("twitter"));
+// router.get(
+//   "/auth/twitter/callback",
+//   passport.authenticate("twitter", { failureRedirect: "/login" }),
+//   // eslint-disable-next-line prefer-arrow-callback
+//   function (req, res) {
+//     // Successful authentication, redirect home
+//     // console.log('user', req.user);
+//     const token = signToken(req.user._doc._id);
+//     // const token = jwt.sign({ userId: req.user._id });
+//     const user = { ...req.user._doc, token };
+//     res.redirect(
+//       `${process.env.FRONTEND_URL}/register?user=${JSON.stringify(user)}`
+//     );
+//   }
+// );
 
 router.post("/signup", authController.signup);
 router.post("/login", authController.login);
@@ -79,13 +79,14 @@ router.post("/logout", authController.logout);
 
 router.post("/forgotPassword", authController.forgotPassword);
 router.patch("/resetPassword/:token", authController.resetPassword);
+// router.post("/device/:id", userController.updatedevicelocation);
 
 // Protect all routes after this middleware
 router.use(authController.protect);
 // router.patch("/update/interests", userController.updateInterests);
 router.patch("/updateMyPassword", authController.updatePassword);
 router.get("/me", userController.getMe, userController.getUser);
-router.post("/device/:id", userController.updatedevicelocation);
+
 // router.patch(
 //   "/updateMe",
 //   userController.uploadUserDocs,

@@ -128,6 +128,8 @@ exports.updateProfile = catchAsync(async (req, res, next) => {
 
 exports.updatedevicelocation = catchAsync(async (req, res, next) => {
   const device = req.params;
+  console.log(req.params);
+  console.log(req.body);
 
   // 3) Update user document
 
