@@ -104,17 +104,20 @@ router.get("/me", userController.getMe, userController.getUser);
 //   userController.uploadUserKyc,
 //   userController.updateKyc
 // );
-
+router.post("/", userController.createUser);
+router.route("/").get(userController.getAllUsers);
 router.delete("/deleteMe", userController.deleteMe);
 router.post("/", userController.createUser);
-router.route("/:id").get(userController.getUser);
+
+router.patch("/update", userController.updateUser);
 
 //protect to super-admin only
 
 router.use(authController.restrictTo("super-admin", "admin"));
 
-router.route("/").get(userController.getAllUsers);
 
+
+router.route("/:id").get(userController.getUser);
 router
   .route("/:id")
   .patch(userController.updateUser)

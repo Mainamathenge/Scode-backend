@@ -126,11 +126,24 @@ exports.updateProfile = catchAsync(async (req, res, next) => {
   });
 });
 
+exports.updateUser = catchAsync(async (req, res, next) => {
+  const doc = await User.findByIdAndUpdate(req.params.id, req.body, {
+    new: true,
+    runValidators: true,
+  });
+
+  res.status(200).json({
+    status: "success",
+    data: {
+      data: doc,
+    },
+  });
+});
+
 exports.updatedevicelocation = catchAsync(async (req, res, next) => {
   const device = req.params;
   console.log(req.params);
   console.log(req.body);
-
   // 3) Update user document
 
   res.status(200).json({
