@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 // const User = require("../models/userModel");
 // const Email = require("../utils/email");
 
+// eslint-disable-next-line no-unused-vars
 const signToken = (id) =>
   jwt.sign({ id }, process.env.JWT_SECRET, {
     expiresIn: process.env.JWT_EXPIRES_IN,
@@ -16,39 +17,6 @@ passport.serializeUser((user, done) => {
 passport.deserializeUser((user, done) => {
   done(null, user);
 });
-// Use passport
-// passport.use(
-//   new TwitterStrategy(
-//     {
-//       consumerKey: process.env.TWITTER_CLIENT_ID,
-//       consumerSecret: process.env.TWITTER_SECRET_KEY,
-//       callbackURL: `${process.env.BASE_URL}/users/auth/twitter/callback`,
-//       includeEmail: true,
-//     },
-//     // eslint-disable-next-line prefer-arrow-callback
-//     async (token, tokenSecret, profile, cb) => {
-//       // This function will be called after the user authorizes the app with Twitter
-//       // You can save the user profile in your database or do any other necessary action here
-//       const user = await User.findOne({
-//         email: profile.emails[0].value,
-//       });
-//       if (user) {
-//         return cb(null, user);
-//       }
-//       const createdUser = await User.create({
-//         email: profile.emails[0].value,
-//         password: profile.id,
-//         passwordConfirm: profile.id,
-//         userName: profile.username,
-//         fullName: profile.displayName,
-//         businessName: profile.username,
-//       });
-//       // const url = `${process.env.FRONTEND_URL}/login`;
-//       // await new Email(createdUser, url).sendTwitterWelcome();
-//       return cb(null, createdUser);
-//     }
-//   )
-// );
 
 const authController = require("../controllers/authController");
 const userController = require("../controllers/userController");
@@ -114,8 +82,6 @@ router.patch("/update", userController.updateUser);
 //protect to super-admin only
 
 router.use(authController.restrictTo("super-admin", "admin"));
-
-
 
 router.route("/:id").get(userController.getUser);
 router
