@@ -10,14 +10,19 @@ const cookieParser = require("cookie-parser");
 const compression = require("compression");
 const cors = require("cors");
 const session = require("express-session");
+const cron = require("node-cron");
 const AppError = require("./utils/appError");
 // const globalErrorHandler = require('./controllers/errorController');
 const userRouter = require("./routes/userRoutes");
 const todoRouter = require("./routes/todoRoutes");
 const viewController = require("./routes/viewRoutes");
 const customerRouter = require("./routes/customerRoutes");
+
 // Start express app
 const app = express();
+//cron job
+
+const startSubChecker = require("./utils/SubCheker");
 
 const whitelist = [
   "http://localhost:3000",
@@ -26,7 +31,14 @@ const whitelist = [
   "http://localhost:4000",
   "*",
 ];
+// start subscrption cheker
 
+startSubChecker();
+// cron.schedule("* * * * *", () => {
+//   console.log("running every minute 1, 2, 4 and 5");
+// });
+
+// cors middleware
 const corsOptions = {
   origin: function (origin, callback) {
     if (whitelist.indexOf(origin) !== -1 || !origin) {
