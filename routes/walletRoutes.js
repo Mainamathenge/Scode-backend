@@ -1,17 +1,14 @@
 const express = require("express");
-const Controller = require("../controllers/todoController");
+const walletController = require("../controllers/walletController");
 
 const router = express.Router();
 
-router
-  .route("/")
-  .get(todoController.getAllTodos)
-  .post(todoController.createTodo);
+router.route("/").get(walletController.getAllWallets);
 
 router
   .route("/:id")
-  .get(todoController.getTodo)
-  .patch(todoController.updateTodo)
-  .delete(todoController.deleteTodo);
+  .get(walletController.getWallet)
+  .patch(walletController.updateWallet)
+  .delete(walletController.deleteWallet);
 
 module.exports = router;

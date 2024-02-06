@@ -49,10 +49,6 @@ const customerSchema = new mongoose.Schema({
     type: String,
     default: "pending",
   },
-  // deviceTime: {
-  //   type: Date,
-  //   default: Date.now() + 7 * 24 * 60 * 60 * 1000,
-  // },
   deviceTime: {
     type: Date,
     default: Date.now() + 7 * 24 * 60 * 60 * 1000,

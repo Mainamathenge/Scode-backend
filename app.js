@@ -10,13 +10,14 @@ const cookieParser = require("cookie-parser");
 const compression = require("compression");
 const cors = require("cors");
 const session = require("express-session");
-const cron = require("node-cron");
+// const cron = require("node-cron");
 const AppError = require("./utils/appError");
 // const globalErrorHandler = require('./controllers/errorController');
 const userRouter = require("./routes/userRoutes");
 const todoRouter = require("./routes/todoRoutes");
 const viewController = require("./routes/viewRoutes");
 const customerRouter = require("./routes/customerRoutes");
+const walletRouter = require("./routes/walletRoutes");
 
 // Start express app
 const app = express();
@@ -34,11 +35,7 @@ const whitelist = [
 // start subscrption cheker
 
 startSubChecker();
-// cron.schedule("* * * * *", () => {
-//   console.log("running every minute 1, 2, 4 and 5");
-// });
 
-// cors middleware
 const corsOptions = {
   origin: function (origin, callback) {
     if (whitelist.indexOf(origin) !== -1 || !origin) {
@@ -103,6 +100,7 @@ app.use("/", viewController);
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/customers", customerRouter);
 app.use("/api/v1/todos", todoRouter);
+app.use("/api/v1/wallet", walletRouter);
 // dashboardRouter;
 
 app.all("*", (req, res, next) => {

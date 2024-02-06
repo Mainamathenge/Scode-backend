@@ -4,16 +4,26 @@ const Customer = require("../models/customerModel");
 const Wallet = require("../models/walletModel");
 
 exports.payment = catchAsync(async (req, res, next) => {
-  const doc = await Wallet.create(req.body);
-  if (!doc) {
-    return res.status(404).json({
-      ResultCode: "C2B00012",
-      ResultDesc: "Rejected",
-    });
+  const customer = await Customer.findOne({ Device: req.body.BillRefNumber });
+  if (customer) {
+    const amount = customer.loanamount - parseInt(req.body.TransAmount, 10);
+    // Update the customer's loan amount with the new calculated amount
+    await Customer.findOneAndUpdate(
+      { Device: req.body.BillRefNumber },
+      { $set: { loanamount: amount } },
+      { new: true }
+    );
+    const doc = await Wallet.create(req.body);
+    if (doc) {
+      return res.status(200).json({
+        ResultCode: "0",
+        ResultDesc: "Accepted",
+      });
+    }
   }
-  res.status(200).json({
-    ResultCode: "0",
-    ResultDesc: "Accepted",
+  return res.status(404).json({
+    ResultCode: "C2B00012",
+    ResultDesc: "Rejected",
   });
 });
 

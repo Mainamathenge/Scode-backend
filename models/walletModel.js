@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const walletSchema = new mongoose.Schema({
-  TrasactionId: {
+  TransID: {
     type: String,
   },
   TransAmount: {
@@ -16,7 +16,7 @@ const walletSchema = new mongoose.Schema({
   MSISDN: {
     type: String,
   },
-  firstName: {
+  FirstName: {
     type: String,
   },
   LastName: {
