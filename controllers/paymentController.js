@@ -1,24 +1,32 @@
 // eslint-disable-next-line no-undef
 const catchAsync = require("../utils/catchAsync");
 const Customer = require("../models/customerModel");
+const Wallet = require("../models/walletModel");
 
 exports.payment = catchAsync(async (req, res, next) => {
-  console.log(req.body);
-
+  const doc = await Wallet.create(req.body);
+  if (!doc) {
+    return res.status(404).json({
+      ResultCode: "C2B00012",
+      ResultDesc: "Rejected",
+    });
+  }
   res.status(200).json({
-    status: "success",
+    ResultCode: "0",
+    ResultDesc: "Accepted",
   });
 });
 
 exports.validation = catchAsync(async (req, res, next) => {
   const device = req.body.BillRefNumber;
   const customer = await Customer.findOne({ Device: device });
-  const loanamount = customer.loanamount - req.body.amount;
-  customer.loanamount = loanamount;
-  await customer.save();
-
+  if (!customer) {
+    return res.status(404).json({
+      ResultCode: "C2B00012",
+      ResultDesc: "Rejected",
+    });
+  }
   res.status(200).json({
-    loanamount: loanamount,
     ResultCode: "0",
     ResultDesc: "Accepted",
   });
