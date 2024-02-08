@@ -4,6 +4,7 @@ const walletController = require("../controllers/walletController");
 const router = express.Router();
 
 router.route("/").get(walletController.getAllWallets);
+router.route("/search").get(walletController.searchWallet);
 
 router
   .route("/:id")

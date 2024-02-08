@@ -10,7 +10,7 @@ exports.deleteCustomer = factory.deleteOne(Customer);
 
 exports.getActiveCustomers = catchAsync(async () => {
   const customers = await Customer.find({ active: true });
-  console.log(Customer);
+  // console.log(Customer);
   return customers;
 });
 
