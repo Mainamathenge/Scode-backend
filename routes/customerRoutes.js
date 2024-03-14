@@ -7,7 +7,7 @@ const router = express.Router();
 router.get("/search", customerController.searchCustomer);
 router.post("/callback", paymentController.payment);
 router.post("/validate", paymentController.validation);
-router.post("/device/:id", userController.updatedevicelocation);
+router.get("/device/:id", userController.updatedevicelocation);
 
 
 router

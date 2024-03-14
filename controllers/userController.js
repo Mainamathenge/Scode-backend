@@ -1,58 +1,7 @@
-// const multer = require("multer");
-// // const sharp = require('sharp');
-// const multerS3 = require("multer-sharp-s3");
-// const { v4: uuidv4 } = require("uuid");
 const User = require("../models/userModel");
 const catchAsync = require("../utils/catchAsync");
 const AppError = require("../utils/appError");
-// const s3 = require("../utils/s3Bucket");
-// const Email = require("../utils/email");
 const factory = require("./handlerFactory");
-
-//Get Unique Filenames
-// const getUniqFileName = (originalname) => {
-//   const name = uuidv4();
-//   const ext = originalname.split(".").pop();
-//   return `${name}.${ext}`;
-// };
-
-// const multerStorage3 = multerS3({
-//   s3: s3,
-//   ACL: "public-read",
-//   Bucket: process.env.USER_UPLOADS_SB_NAME,
-//   Key: (req, file, cb) => {
-//     const fileName = getUniqFileName(file.originalname);
-//     const s3InnerDirectory = "kyc";
-//     const finalPath = `${s3InnerDirectory}/${fileName}`;
-
-//     file.newName = fileName;
-
-//     cb(null, finalPath);
-//   },
-//   resize: {
-//     width: 500,
-//     height: 500,
-//   },
-//   toFormat: {
-//     type: "jpeg",
-//     options: {
-//       progressive: true,
-//       quality: 90,
-//     },
-//   },
-// });
-
-// const upload = multer({
-//   storage: multerStorage3,
-// });
-
-// exports.uploadUserDocs = upload.array("doc", 3);
-// exports.uploadUserPhoto = upload.single("photo");
-
-// exports.uploadUserKyc = upload.fields([
-//   { name: "doc1", maxCount: 1 },
-//   { name: "doc2", maxCount: 1 },
-// ]);
 
 exports.getMe = (req, res, next) => {
   req.params.id = req.user.id;
@@ -71,7 +20,6 @@ exports.updateMe = catchAsync(async (req, res, next) => {
     );
   }
 
-  // 2) Filtered out unwanted fields names that are not allowed to be updated
   const filteredBody = JSON.parse(req.body.payload);
   if (req.files) {
     const [doc1, doc2, doc3] = req.files.map((file) => file.Location);
@@ -91,8 +39,6 @@ exports.updateMe = catchAsync(async (req, res, next) => {
     runValidators: true,
   });
 
-  // const url = `${process.env.FRONTEND_URL}/login`;
-  // await new Email(updatedUser, url).sendKycStatus();
 
   res.status(200).json({
     status: "success",
@@ -143,11 +89,10 @@ exports.updateUser = catchAsync(async (req, res, next) => {
 exports.updatedevicelocation = catchAsync(async (req, res, next) => {
   const device = req.params;
   console.log(req.params);
-  console.log(req.body);
-  // 3) Update user document
 
   res.status(200).json({
-    status: `success you have updated device ${device}`,
+    message: `success you have updated device ${device.id}`,
+    status: true,
   });
 });
 
