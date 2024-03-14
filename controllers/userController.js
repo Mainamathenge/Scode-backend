@@ -39,7 +39,6 @@ exports.updateMe = catchAsync(async (req, res, next) => {
     runValidators: true,
   });
 
-
   res.status(200).json({
     status: "success",
     data: {
@@ -87,13 +86,23 @@ exports.updateUser = catchAsync(async (req, res, next) => {
 });
 
 exports.updatedevicelocation = catchAsync(async (req, res, next) => {
-  const device = req.params;
-  console.log(req.params);
+  const device = req.query;
+  console.log(device);
+  console.log(`device id ${device.deviceid} device status 
+  ${device.status}  device energy ${device.energy}  device location ${device.location} `);
 
-  res.status(200).json({
-    message: `success you have updated device ${device.id}`,
-    status: true,
-  });
+  if (device.status === "off") {
+    res.status(200).json({
+      message: "device is off",
+      status: false,
+    });
+  } else {
+    res.status(200).json({
+      message: `success you have updated device ${device.id}`,
+      status: true,
+    });
+  }
+
 });
 
 exports.updateKyc = catchAsync(async (req, res, next) => {
