@@ -3,14 +3,25 @@ const catchAsync = require("../utils/catchAsync");
 const Customer = require("../models/customerModel");
 const Wallet = require("../models/walletModel");
 
+function updatedDeviceTime(amount, curentTime) {
+  const minutes = amount / 1000;
+  const newTime = curentTime.setMinutes(curentTime.getMinutes() + 10);
+  console.log("new Time", newTime.toLocaleString());
+  return newTime;
+}
+
 exports.payment = catchAsync(async (req, res, next) => {
   const customer = await Customer.findOne({ Device: req.body.BillRefNumber });
   if (customer) {
     const amount = customer.loanamount - parseInt(req.body.TransAmount, 10);
-    // Update the customer's loan amount with the new calculated amount
-    await Customer.findOneAndUpdate(
+    console.log(`old time ${customer.deviceTime}`);
+    const newTime = updatedDeviceTime(amount, customer.deviceTime);
+
+    console.log(`New time ${newTime} `);
+
+    const updatedCustomer = await Customer.findOneAndUpdate(
       { Device: req.body.BillRefNumber },
-      { $set: { loanamount: amount } },
+      { $set: { loanamount: amount, deviceTime: newTime, active: true } },
       { new: true }
     );
     const doc = await Wallet.create(req.body);
@@ -18,6 +29,8 @@ exports.payment = catchAsync(async (req, res, next) => {
       return res.status(200).json({
         ResultCode: "0",
         ResultDesc: "Accepted",
+        update_customer: updatedCustomer,
+        Wallet: doc,
       });
     }
   }
