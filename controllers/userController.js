@@ -102,7 +102,6 @@ exports.updatedevicelocation = catchAsync(async (req, res, next) => {
       status: true,
     });
   }
-
 });
 
 exports.updateKyc = catchAsync(async (req, res, next) => {
