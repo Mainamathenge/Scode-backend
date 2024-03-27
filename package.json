@@ -7,7 +7,7 @@
     "start": "nodemon server.js",
     "start:prod": "NODE_ENV=production nodemon server.js"
   },
-  "author": "Isaac Waweru",
+  "author": "Joseph Maina",
   "license": "ISC",
   "dependencies": {
     "aws-sdk": "^2.1270.0",

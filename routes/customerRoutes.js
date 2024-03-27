@@ -8,7 +8,7 @@ router.get("/search", customerController.searchCustomer);
 router.post("/callback", paymentController.payment);
 router.post("/validate", paymentController.validation);
 router.get("/device", userController.updatedevicelocation);
-router.get("/update-device", customerController.updateDevice);
+router.post("/update-device", customerController.updateDevice);
 
 router
   .route("/")
