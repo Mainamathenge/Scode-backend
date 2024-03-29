@@ -25,6 +25,10 @@ const customerSchema = new mongoose.Schema({
     type: String,
     required: [true, "Please provide a valid device id "],
   },
+  DeviceNumber: {
+    type: String,
+    required: [true, "Please provide a valid device number "],
+  },
   location: {
     type: String,
     default: "Kenya",
@@ -57,6 +61,7 @@ const customerSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+
 });
 
 const customer = mongoose.model("Customer", customerSchema);

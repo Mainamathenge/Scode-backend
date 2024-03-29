@@ -1,33 +1,33 @@
 const mongoose = require("mongoose");
 
-const walletSchema = new mongoose.Schema({
+const updateDeviceSchema = new mongoose.Schema({
   customer: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Customer",
   },
-  TransID: {
+  linkId: {
     type: String,
   },
-  TransAmount: {
+  text: {
     type: String,
   },
-  BillRefNumber: {
+  id: {
     type: String,
   },
-  InvoiceNumber: {
+  from: {
     type: String,
   },
-  MSISDN: {
+  networkCode: {
     type: String,
   },
-  FirstName: {
+  cost: {
     type: String,
   },
-  LastName: {
+  date: {
     type: String,
   },
 });
 
-const customer = mongoose.model("Wallet", walletSchema);
+const UpdateDevice = mongoose.model("updateDevice", updateDeviceSchema);
 
-module.exports = customer;
+module.exports = UpdateDevice;

@@ -1,8 +1,8 @@
-const net = require("net");
+// Description: This file contains the logic to handle the requests from the routes related to the customer.
 const Customer = require("../models/customerModel");
+const UpdateDevice = require("../models/updateDeviceModel");
 const factory = require("./handlerFactory");
 const catchAsync = require("../utils/catchAsync");
-const { Socket } = require("dgram");
 
 exports.createCustomer = factory.createOne(Customer);
 exports.getCustomer = factory.getOne(Customer);
@@ -32,7 +32,25 @@ exports.searchCustomer = catchAsync(async (req, res, next) => {
 });
 
 exports.updateDevice = catchAsync(async (req, res, next) => {
-  console.log("update device", req.body);
+  const message = req.body;
+  const customer = await Customer.findOne({ DeviceNumber: message.from });
+  if (!customer) {
+    return res.status(404).json({
+      status: "fail",
+      message: "Customer not found",
+    });
+  }
+  const update = await UpdateDevice.create({
+    customer: customer._id,
+    linkId: message.linkId,
+    text: message.text,
+    id: message.id,
+    from: message.from,
+    networkCode: message.networkCode,
+    cost: message.cost,
+    date: message.date,
+  });
+  console.log("customer", update);
   res.status(200).json({
     status: "success",
     data: req.body,
