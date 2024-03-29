@@ -5,10 +5,11 @@ const userController = require("../controllers/userController");
 
 const router = express.Router();
 router.get("/search", customerController.searchCustomer);
-router.post("/callback", paymentController.payment);
+router.post("/payment", paymentController.payment);
 router.post("/validate", paymentController.validation);
 router.get("/device", userController.updatedevicelocation);
 router.post("/update-device", customerController.updateDevice);
+router.get("/sendSms", customerController.smsSenderTest);
 
 router
   .route("/")

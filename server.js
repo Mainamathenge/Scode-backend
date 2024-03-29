@@ -19,27 +19,6 @@ mongoose
   .connect(process.env.MONGODB_URL)
   .then(() => console.log("DB connection successful!"));
 
-// Connection to a tcp server
-const tcpServer = net.createServer((socket) => {
-  const response = {
-    message: "Hello, device! You are now connected to the server.",
-  };
-  socket.write(JSON.stringify(response));
-  socket.on("data", (data) => {
-    try {
-      const jsonData = JSON.parse(data.toString());
-      console.log("Received data over TCP:", jsonData);
-    } catch (error) {
-      console.error("Error processing TCP data:", error);
-    }
-  });
-});
-
-// Start HTTP server
-const TCP_PORT = process.env.TCP_PORT || 3001; // Define the port for TCP server
-tcpServer.listen(TCP_PORT, () => {
-  console.log(`TCP server is listening on port ${TCP_PORT}`);
-});
 
 const port = process.env.PORT;
 const server = app.listen(port, () => {

@@ -6,7 +6,7 @@ const customerSchema = new mongoose.Schema({
     required: [true, "Please tell us your fullName!"],
   },
   phone: {
-    type: Number,
+    type: String,
     required: [true, " please provide a valid customer number"],
   },
   idnumber: {
@@ -61,7 +61,6 @@ const customerSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
-
 });
 
 const customer = mongoose.model("Customer", customerSchema);

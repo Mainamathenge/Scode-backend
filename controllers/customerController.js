@@ -3,6 +3,7 @@ const Customer = require("../models/customerModel");
 const UpdateDevice = require("../models/updateDeviceModel");
 const factory = require("./handlerFactory");
 const catchAsync = require("../utils/catchAsync");
+const smsSender = require("../utils/messageSender");
 
 exports.createCustomer = factory.createOne(Customer);
 exports.getCustomer = factory.getOne(Customer);
@@ -14,6 +15,15 @@ exports.getActiveCustomers = catchAsync(async () => {
   const customers = await Customer.find({ active: true });
   // console.log(Customer);
   return customers;
+});
+
+exports.smsSenderTest = catchAsync(async (req, res, next) => {
+  const Sender = await smsSender.sendSMS("Hello", "+254748829383");
+  console.log(Sender);
+  res.status(200).json({
+    status: "success",
+    data: Sender,
+  });
 });
 
 exports.searchCustomer = catchAsync(async (req, res, next) => {
