@@ -55,7 +55,15 @@ const customerSchema = new mongoose.Schema({
   },
   deviceTime: {
     type: Date,
-    default: Date.now(),
+    default: function () {
+      const date = new Date();
+      date.toLocaleString(undefined, { timeZone: "Africa/Nairobi" });
+      return date;
+    },
+  },
+  reminder: {
+    type: Boolean,
+    default: false,
   },
   active: {
     type: Boolean,

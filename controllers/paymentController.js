@@ -4,40 +4,69 @@ const Customer = require("../models/customerModel");
 const Wallet = require("../models/walletModel");
 const smsSender = require("../utils/messageSender");
 
-function updatedDeviceTime(amount, curentTime) {
-  const minutes = amount / 1000;
-  const newTime = curentTime.setMinutes(curentTime.getMinutes() + 10);
-  console.log("new Time", newTime.toLocaleString());
+function updatedDeviceTime(amount, deviceTime) {
+  console.log(
+    "Current Time (East African Time):",
+    deviceTime.toLocaleString("en-US", { timeZone: "Africa/Nairobi" })
+  );
+  const minutes = Math.floor(amount / 1000); // Convert milliseconds to minutes
+
+  console.log("Minutes:", minutes);
+  const newTime = new Date(deviceTime.getTime() + minutes * 60000); // Add minutes to local device time
+  console.log(
+    "New Time (East African Time):",
+    newTime.toLocaleString("en-US", { timeZone: "Africa/Nairobi" })
+  );
   return newTime;
 }
 
 exports.payment = catchAsync(async (req, res, next) => {
-  const customer = await Customer.findOne({ Device: req.body.BillRefNumber });
+  const customer = await Customer.findOne({
+    Device: req.body.BillRefNumber,
+  }).catch((e) => {
+    console.log(e);
+  });
   if (customer) {
+    if (customer.deviceTime < Date.now()) {
+      customer.deviceTime = Date.now();
+    }
     const amount = customer.loanamount - parseInt(req.body.TransAmount, 10);
-    const newTime = updatedDeviceTime(amount, customer.deviceTime);
+    console.log("Amount before addition:", req.body.TransAmount);
+    const newTime = updatedDeviceTime(
+      req.body.TransAmount,
+      customer.deviceTime
+    );
     const updatedCustomer = await Customer.findOneAndUpdate(
       { Device: req.body.BillRefNumber },
-      { $set: { loanamount: amount, deviceTime: newTime, active: true } },
+      {
+        $set: {
+          loanamount: amount,
+          deviceTime: newTime,
+          active: true,
+          reminder: true,
+        },
+      },
       { new: true }
     );
-    const doc = await Wallet.create(req.body);
-    await smsSender.sendSMS(
-      `Dear ${updatedCustomer.FirstName} ${updatedCustomer.LastName}, 
-        Your  payment of Ksh ${req.body.TransAmount} has been received. 
-        Your new balance is Ksh ${updatedCustomer.loanamount}. 
-        Thank you for your your countinued loyalty to Socode.`,
-      updatedCustomer.phone
-    );
-    await smsSender.sendSMS(
-      `DeviceActivation for ${amount}`,
-      updatedCustomer.DeviceNumber
-    );
+    const doc = await Wallet.create({
+      ...req.body,
+      customer: updatedCustomer._id,
+    });
+    // await smsSender.sendSMS(
+    //   `Dear ${updatedCustomer.fullName},
+    //    Your  payment of Ksh ${req.body.TransAmount} has been received.
+    //     Your new balance is Ksh ${updatedCustomer.loanamount}.
+    //     Thank you for your your countinued loyalty to Socode.`,
+    //   updatedCustomer.phone
+    // );
+    // await smsSender.sendSMS(
+    //   `DeviceActivation for ${amount}`,
+    //   updatedCustomer.DeviceNumber
+    // );
     if (doc) {
       return res.status(200).json({
         ResultCode: "0",
         ResultDesc: "Accepted",
-        update_customer: updatedCustomer,
         Wallet: doc,
       });
     }
