@@ -70,7 +70,7 @@ exports.updateDevice = catchAsync(async (req, res, next) => {
 exports.activateCustomer = catchAsync(async (req, res, next) => {
   const customer = req.params.id;
   const deviceTime = new Date();
-  const newTime = new Date(deviceTime.getTime() + 10 * 60000);
+  const newTime = new Date(deviceTime.getTime() + 15 * 60000);
   const customerToActivate = await Customer.findById(customer);
   if (!customerToActivate) {
     return res.status(404).json({
