@@ -4,6 +4,7 @@ const credentials = {
 };
 
 const AfricasTalking = require("africastalking")(credentials);
+
 const sms = AfricasTalking.SMS;
 
 const sendSMS = async (message, phone) => {

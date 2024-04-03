@@ -52,17 +52,17 @@ exports.payment = catchAsync(async (req, res, next) => {
       ...req.body,
       customer: updatedCustomer._id,
     });
-    // await smsSender.sendSMS(
-    //   `Dear ${updatedCustomer.fullName},
-    //    Your  payment of Ksh ${req.body.TransAmount} has been received.
-    //     Your new balance is Ksh ${updatedCustomer.loanamount}.
-    //     Thank you for your your countinued loyalty to Socode.`,
-    //   updatedCustomer.phone
-    // );
-    // await smsSender.sendSMS(
-    //   `DeviceActivation for ${amount}`,
-    //   updatedCustomer.DeviceNumber
-    // );
+    await smsSender.sendSMS(
+      `Dear ${updatedCustomer.fullName},
+       Your  payment of Ksh ${req.body.TransAmount} has been received.
+        Your new balance is Ksh ${updatedCustomer.loanamount}.
+        Thank you for your your countinued loyalty to Socode.`,
+      updatedCustomer.phone
+    );
+    await smsSender.sendSMS(
+      `DeviceActivation for ${amount}`,
+      updatedCustomer.DeviceNumber
+    );
     if (doc) {
       return res.status(200).json({
         ResultCode: "0",

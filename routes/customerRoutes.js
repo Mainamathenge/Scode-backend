@@ -11,6 +11,8 @@ router.get("/device", userController.updatedevicelocation);
 router.post("/update-device", customerController.updateDevice);
 router.get("/sendSms", customerController.smsSenderTest);
 
+router.patch("/activateCustomer/:id", customerController.activateCustomer);
+
 router
   .route("/")
   .get(customerController.getAllCustomer)

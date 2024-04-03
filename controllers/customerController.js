@@ -66,3 +66,39 @@ exports.updateDevice = catchAsync(async (req, res, next) => {
     data: req.body,
   });
 });
+
+exports.activateCustomer = catchAsync(async (req, res, next) => {
+  const customer = req.params.id;
+  const deviceTime = new Date();
+  const newTime = new Date(deviceTime.getTime() + 10 * 60000);
+  const customerToActivate = await Customer.findById(customer);
+  if (!customerToActivate) {
+    return res.status(404).json({
+      status: "fail",
+      message: "Customer not found",
+    });
+  }
+  customerToActivate.active = true;
+  customerToActivate.deviceTime = newTime;
+  customerToActivate.reminder = true;
+  const ActivateCustomer = await customerToActivate.save();
+  await smsSender.sendSMS(
+    `Dear ${ActivateCustomer.fullName},
+
+    Great news! Your device has been successfully activated.  You can now start using it.
+    
+    To keep your device active, please top up your account using
+    Mpesa Paybill number 123456 with account number ${ActivateCustomer.Device}.
+    
+    We're happy to have you on board!`,
+    ActivateCustomer.phone
+  );
+  await smsSender.sendSMS(
+    `Activation for ${ActivateCustomer.Device}`,
+    ActivateCustomer.DeviceNumber
+  );
+  res.status(200).json({
+    status: "success",
+    data: ActivateCustomer,
+  });
+});
