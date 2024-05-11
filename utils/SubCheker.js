@@ -60,10 +60,10 @@ async function subscriptionStatus() {
         customer.phone
       );
       await smsSender.sendSMS(
-        `DeviceDeactivationActivation for ${customer.Device}`,
+        `Deactivate  ${customer.Device}`,
         customer.DeviceNumber
       );
-      const remainingTime = customer.deviceTime.getTime() - date.getTime();
+      // const remainingTime = customer.deviceTime.getTime() - date.getTime();
       console.log(
         `Customer time remaining for ${customer.fullName}", ${
           remainingTime / (1000 * 60)

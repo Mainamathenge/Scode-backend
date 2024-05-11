@@ -26,6 +26,10 @@ const updateDeviceSchema = new mongoose.Schema({
   date: {
     type: String,
   },
+  tamper: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const UpdateDevice = mongoose.model("updateDevice", updateDeviceSchema);

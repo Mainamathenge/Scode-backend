@@ -60,7 +60,7 @@ exports.payment = catchAsync(async (req, res, next) => {
       updatedCustomer.phone
     );
     await smsSender.sendSMS(
-      `DeviceActivation for ${amount}`,
+      `Activation for ${amount}`,
       updatedCustomer.DeviceNumber
     );
     if (doc) {

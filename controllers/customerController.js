@@ -13,7 +13,6 @@ exports.deleteCustomer = factory.deleteOne(Customer);
 
 exports.getActiveCustomers = catchAsync(async () => {
   const customers = await Customer.find({ active: true });
-  // console.log(Customer);
   return customers;
 });
 
@@ -50,7 +49,35 @@ exports.updateDevice = catchAsync(async (req, res, next) => {
       message: "Customer not found",
     });
   }
-  const update = await UpdateDevice.create({
+  if (message.text.includes("Tamper")) {
+    console.log(`Tamper detected for ${message.text}`);
+    customer.active = false;
+    await customer.save();
+    await smsSender.sendSMS(
+      `Dear ${customer.fullName},
+      We have detected potential tampering with your device.
+      For your safety and to maintain compliance with our terms and conditions,
+      we kindly ask you to contact our support team immediately at {scode support}.`,
+      customer.phone
+    );
+    await smsSender.sendSMS(
+      `Tampering detected for ${customer.Device} who is in location ${customer.devicelocation}`,
+      process.env.ADMIN_NUMBER
+    );
+    await UpdateDevice.create({
+      customer: customer._id,
+      linkId: message.linkId,
+      text: message.text,
+      id: message.id,
+      from: message.from,
+      networkCode: message.networkCode,
+      cost: message.cost,
+      date: message.date,
+      tamper: true,
+    });
+  }
+  console.log(`Tamper not detected for ${message.text}`);
+  await UpdateDevice.create({
     customer: customer._id,
     linkId: message.linkId,
     text: message.text,
@@ -60,7 +87,6 @@ exports.updateDevice = catchAsync(async (req, res, next) => {
     cost: message.cost,
     date: message.date,
   });
-  console.log("customer", update);
   res.status(200).json({
     status: "success",
     data: req.body,
