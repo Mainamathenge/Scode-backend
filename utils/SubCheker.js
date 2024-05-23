@@ -60,7 +60,7 @@ async function subscriptionStatus() {
         customer.phone
       );
       await smsSender.sendSMS(
-        `Deactivate  ${customer.Device}`,
+        `Deactivation ${customer.Device}`,
         customer.DeviceNumber
       );
       // const remainingTime = customer.deviceTime.getTime() - date.getTime();
