@@ -1,6 +1,6 @@
 const credentials = {
-  apiKey: "b9d89d004094e784d133911f03f435145174aac5dee6b083556f4cc50dd3e950",
-  username: "Scode_1",
+  apiKey: process.env.SMS_API,
+  username: process.env.SMS_USERNAME,
 };
 
 const AfricasTalking = require("africastalking")(credentials);
