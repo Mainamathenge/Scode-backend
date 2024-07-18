@@ -27,6 +27,7 @@ const startSubChecker = require("./utils/SubCheker");
 
 const whitelist = [
   "https://scode2-0.vercel.app",
+  "https://scode2-0-9yiehzds8-mainamathenges-projects.vercel.app",
   "http://localhost:3000",
   "http://localhost:8080",
   "http://localhost:8081",
