@@ -29,6 +29,7 @@ const whitelist = [
   "https://scode2-0.vercel.app",
   "https://scode2-0-9yiehzds8-mainamathenges-projects.vercel.app",
   "https://plankton-app-53o43.ondigitalocean.app",
+  "https://scode2-0.onrender.com",
   "http://localhost:3000",
   "http://localhost:8080",
   "http://localhost:8081",
